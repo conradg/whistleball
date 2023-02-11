@@ -100,7 +100,7 @@ class Game {
         )
         this.blobs.forEach(blob => {
                 if (blob.x < 0) {
-                    lifes = 0
+                    lifes = lifes - 1;
                     if (lifes == 0) {
                         //show audio screen
                         let audioScreen = document.getElementById('audioScreen');
