@@ -92,9 +92,7 @@ class Game {
 }
 
 
-function
-
-clear_canvas() {
+function clear_canvas() {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -103,9 +101,7 @@ clear_canvas() {
 
 game = new Game();
 
-function
-
-loop() {
+function loop() {
     game.move();
     game.draw();
     game.garbage_collect_blobs()
@@ -114,11 +110,9 @@ loop() {
 
 // get microphone input
 
-let
-    game_inited = false;
+let game_inited = false;
 
-document
-    .onclick = function (event) {
+document.onclick = function (event) {
     const x = event.x - 8
     const y = event.y - 8
     const blob = new Blob(x, y)
