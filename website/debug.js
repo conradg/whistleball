@@ -1,4 +1,5 @@
 const debug = document.getElementById('debug');
+
 function debugLowestFrequency() {
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(dataArray);
@@ -20,11 +21,12 @@ function debugLowestFrequency() {
     requestAnimationFrame(debugLowestFrequency);
 }
 
-
-// show blob count on screen
-function showBlobCount() {
-    const blobCount = document.getElementById('blobCount');
-    blobCount.innerText = game.blobs.length;
-    requestAnimationFrame(showBlobCount);
-}
+//
+//
+// // show blob count on screen
+// function showBlobCount() {
+//     const blobCount = document.getElementById('blobCount');
+//     blobCount.innerText = game.blobs.length;
+//     requestAnimationFrame(showBlobCount);
+// }
 

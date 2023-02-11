@@ -11,6 +11,7 @@ const min_freq = 900;
 let freq = 0;
 let volume = 0;
 const smoothingTimeConstant = 0.99;
+let score = 0;
 
 class Line {
     constructor() {
@@ -77,6 +78,13 @@ class Game {
     }
 
     garbage_collect_blobs() {
+        this.blobs.forEach(blob => {
+                if (blob.x > canvas.width) {
+                    score = score + 1;
+                    document.getElementById('score').innerText = `Score: ${score}`
+                }
+            }
+        )
         this.blobs = this.blobs.filter(blob => {
             return blob.y < canvas.height && blob.x < canvas.width && blob.x > 0 && blob.y > 0;
         })
@@ -84,7 +92,9 @@ class Game {
 }
 
 
-function clear_canvas() {
+function
+
+clear_canvas() {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -93,7 +103,9 @@ function clear_canvas() {
 
 game = new Game();
 
-function loop() {
+function
+
+loop() {
     game.move();
     game.draw();
     game.garbage_collect_blobs()
@@ -102,15 +114,21 @@ function loop() {
 
 // get microphone input
 
-let game_inited = false;
+let
+    game_inited = false;
 
-document.onclick = function (event) {
+document
+    .onclick = function (event) {
     const x = event.x - 8
     const y = event.y - 8
     const blob = new Blob(x, y)
     game.blobs.push(blob)
     blob.draw()
     if (!game_inited) {
+        // hide audioScreen
+        const audioScreen = document.getElementById('audioScreen');
+        audioScreen.style.display = 'none';
+
         audioCtx = new AudioContext();
         analyser = audioCtx.createAnalyser();
         analyser.fftSize = fftSize;
@@ -120,23 +138,24 @@ document.onclick = function (event) {
                     const source = audioCtx.createMediaStreamSource(stream);
                     source.connect(analyser);
                     loop();
-                    debugLowestFrequency();
-                    showBlobCount();
+                    // debugLowestFrequency();
+                    // showBlobCount();
                 }
             );
         game_inited = true;
     }
 }
 
-function add_blobs() {
-    setTimeout(() => {
-        const blob = new Blob(400, 100)
-        game.blobs.push(blob)
-        add_blobs()
-    }, 2000)
-}
 
-add_blobs()
+// function add_blobs() {
+//     setTimeout(() => {
+//         const blob = new Blob(400, 100)
+//         game.blobs.push(blob)
+//         add_blobs()
+//     }, 1000*1)
+// }
+//
+// add_blobs()
 
 
 class Blob {
