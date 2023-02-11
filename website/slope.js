@@ -189,8 +189,8 @@ class Blob {
                     this.x_speed,
                     this.y_speed
                 )
-                this.add_debug_point(this.x - normal.x * 10, this.y - normal.y * 10)
-                this.add_debug_point(this.x + this.x_speed * 10, this.y + this.y_speed * 10, 'green')
+                // this.add_debug_point(this.x - normal.x * 10, this.y - normal.y * 10)
+                // this.add_debug_point(this.x + this.x_speed * 10, this.y + this.y_speed * 10, 'green')
 
 
                 if (ball_offset < this.width) {
@@ -205,6 +205,7 @@ class Blob {
                     )
                     const tangent_vector_unit = tangent_vector.unit()
                     const tangent_vector_unit_dot_product = tangent_vector_unit.dot_product(velocity)
+
                     const tangent_vector_unit_dot_product_x = tangent_vector_unit_dot_product * tangent_vector_unit.x
                     const tangent_vector_unit_dot_product_y = tangent_vector_unit_dot_product * tangent_vector_unit.y
                     const normal_vector_unit_dot_product_x_new = -normal_vector_unit_dot_product_x
@@ -212,8 +213,8 @@ class Blob {
 
                     this.x_speed = normal_vector_unit_dot_product_x_new + tangent_vector_unit_dot_product_x
                     this.y_speed = normal_vector_unit_dot_product_y_new + tangent_vector_unit_dot_product_y
-                    // this.y_speed *= 0.9
-                    // this.x_speed *= 0.9
+                    this.y_speed *= 0.99
+                    this.x_speed *= 0.99
                     return
                 }
             }
