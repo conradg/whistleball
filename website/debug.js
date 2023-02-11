@@ -19,3 +19,12 @@ function debugLowestFrequency() {
     freq = loudest_index;
     requestAnimationFrame(debugLowestFrequency);
 }
+
+
+// show blob count on screen
+function showBlobCount() {
+    const blobCount = document.getElementById('blobCount');
+    blobCount.innerText = game.blobs.length;
+    requestAnimationFrame(showBlobCount);
+}
+
