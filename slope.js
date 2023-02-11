@@ -186,6 +186,7 @@ function reset_game() {
     let audioScreen = document.getElementById('audioScreen');
     audioScreen.style.display = "none";
     loop();
+    add_blobs(difficulty)
 }
 
 function add_blobs(difficulty) {
