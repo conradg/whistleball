@@ -123,11 +123,11 @@ function loop() {
 let game_inited = false;
 
 document.onclick = function (event) {
-    const x = event.x - 8
-    const y = event.y - 8
-    const blob = new Blob(x, y)
-    game.blobs.push(blob)
-    blob.draw()
+    // const x = event.x - 8
+    // const y = event.y - 8
+    // const blob = new Blob(x, y)
+    // game.blobs.push(blob)
+    // blob.draw()
     if (!game_inited) {
         // hide audioScreen
         const audioScreen = document.getElementById('audioScreen');
