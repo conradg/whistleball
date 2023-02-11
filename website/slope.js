@@ -169,11 +169,14 @@ class Blob {
                 const y_ball_dist = y_offset - this.y
                 const ball_offset = y_ball_dist * Math.cos(slope_angle)
 
-
                 const normal_x = ball_offset * Math.sin(slope_angle)
-                const normal_y = ball_offset * Math.cos(slope_angle)
+                const normal_y = -ball_offset * Math.cos(slope_angle)
 
-                this.add_debug_point(this.x - normal_x*10, this.y + normal_y*10)
+                const normal = new Vector(
+                    normal_x,
+                    normal_y
+                )
+                this.add_debug_point(this.x - normal.x*10, this.y - normal.y*10)
                 this.add_debug_point(this.x + this.x_speed * 10, this.y + this.y_speed * 10, 'green')
 
                 if (ball_offset < this.width) {
@@ -209,7 +212,6 @@ class Blob {
     add_debug_point = function (x, y, colour = 'red') {
         this.debug_points.push([x, y, colour])
     }
-
 
     draw_debug_point(x, y, colour = 'red') {
         // draw a line from the centre of the ball to the point
