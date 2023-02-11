@@ -176,17 +176,20 @@ class Blob {
                     normal_x,
                     normal_y
                 )
+                const velocity = new Vector(
+                    this.x_speed,
+                    this.y_speed
+                )
                 this.add_debug_point(this.x - normal.x*10, this.y - normal.y*10)
                 this.add_debug_point(this.x + this.x_speed * 10, this.y + this.y_speed * 10, 'green')
+
 
                 if (ball_offset < this.width) {
                     this.y = y_offset - this.width
                     const normal_vector_unit = normal.unit()
-                    const normal_vector_unit_x = normal_vector_unit.x
-                    const normal_vector_unit_y = normal_vector_unit.y
-                    const normal_vector_unit_dot_product = normal_vector_unit_x * this.x_speed + normal_vector_unit_y * this.y_speed
-                    const normal_vector_unit_dot_product_x = normal_vector_unit_dot_product * normal_vector_unit_x
-                    const normal_vector_unit_dot_product_y = normal_vector_unit_dot_product * normal_vector_unit_y
+                    const normal_vector_unit_dot_product = normal_vector_unit.dot_product(velocity)
+                    const normal_vector_unit_dot_product_x = normal_vector_unit_dot_product * normal_vector_unit.x
+                    const normal_vector_unit_dot_product_y = normal_vector_unit_dot_product * normal_vector_unit.y
                     const tangent_vector = [this.x_speed - normal_vector_unit_dot_product_x, this.y_speed - normal_vector_unit_dot_product_y]
                     const tangent_vector_length = Math.sqrt(tangent_vector[0] ** 2 + tangent_vector[1] ** 2)
                     const tangent_vector_unit = [tangent_vector[0] / tangent_vector_length, tangent_vector[1] / tangent_vector_length]
@@ -237,5 +240,9 @@ class Vector {
 
     length() {
         return Math.sqrt(this.x ** 2 + this.y ** 2)
+    }
+
+    dot_product(vector) {
+        return this.x * vector.x + this.y * vector.y
     }
 }
