@@ -3,17 +3,14 @@ const canvas = document.getElementById('audio');
 const ctx = canvas.getContext('2d');
 
 // get audio context
-const audioCtx = new AudioContext();
-const analyser = audioCtx.createAnalyser();
-analyser.fftSize = 4096;
-const bucket_frequency_size = audioCtx.sampleRate / analyser.fftSize;
-
-const max_freq = 180;
-const min_freq = 60;
+let audioCtx;
+let analyser;
+const fftSize = 1024;
+const max_freq = 2000;
+const min_freq = 900;
 let freq = 0;
 let volume = 0;
-analyser.smoothingTimeConstant = 0.99;
-
+const smoothingTimeConstant = 0.99;
 
 class Line {
     constructor() {
@@ -32,12 +29,12 @@ class Line {
                 ctx.lineTo(x, y);
             }
         })
-        ctx.lineTo(canvas.width, canvas.height / 2);
         ctx.stroke();
     }
 
     calculate_line() {
         // calculate points
+        const bucket_frequency_size = audioCtx.sampleRate / analyser.fftSize;
         const dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
         const bins_shown = (max_freq - min_freq) / bucket_frequency_size;
@@ -53,7 +50,6 @@ class Line {
             line.push([x, y])
             x += sliceWidth;
         });
-        line.push([canvas.width, canvas.height / 2])
         this.points = line;
     }
 }
@@ -105,15 +101,8 @@ function loop() {
 }
 
 // get microphone input
-navigator.mediaDevices.getUserMedia({audio: true, video: false})
-    .then(function (stream) {
-            const source = audioCtx.createMediaStreamSource(stream);
-            source.connect(analyser);
-            loop();
-            debugLowestFrequency();
-            showBlobCount();
-        }
-    );
+
+let game_inited = false;
 
 document.onclick = function (event) {
     const x = event.x - 8
@@ -121,6 +110,22 @@ document.onclick = function (event) {
     const blob = new Blob(x, y)
     game.blobs.push(blob)
     blob.draw()
+    if (!game_inited) {
+        audioCtx = new AudioContext();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = fftSize;
+        analyser.smoothingTimeConstant = smoothingTimeConstant;
+        navigator.mediaDevices.getUserMedia({audio: true, video: false})
+            .then(function (stream) {
+                    const source = audioCtx.createMediaStreamSource(stream);
+                    source.connect(analyser);
+                    loop();
+                    debugLowestFrequency();
+                    showBlobCount();
+                }
+            );
+        game_inited = true;
+    }
 }
 
 function add_blobs() {
