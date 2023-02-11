@@ -237,7 +237,9 @@ class Blob {
             const [x, y] = game.line.points[i];
             const [nx, ny] = game.line.points[i + 1];
 
+
             if (this.x > x && this.x < nx) {
+                // explanation of the collision logic in collision.png
                 const m = (ny - y) / (nx - x)
                 const slope_angle = Math.atan(m)
                 const dx = this.x - x
