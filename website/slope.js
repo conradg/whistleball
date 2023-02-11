@@ -181,10 +181,9 @@ class Blob {
 
                 if (ball_offset < this.width) {
                     this.y = y_offset - this.width
-                    const normal_vector_length = Math.sqrt(normal_x ** 2 + normal_y ** 2)
-                    const normal_vector_unit = [normal_x / normal_vector_length, normal_y / normal_vector_length]
-                    const normal_vector_unit_x = normal_vector_unit[0]
-                    const normal_vector_unit_y = normal_vector_unit[1]
+                    const normal_vector_unit = normal.unit()
+                    const normal_vector_unit_x = normal_vector_unit.x
+                    const normal_vector_unit_y = normal_vector_unit.y
                     const normal_vector_unit_dot_product = normal_vector_unit_x * this.x_speed + normal_vector_unit_y * this.y_speed
                     const normal_vector_unit_dot_product_x = normal_vector_unit_dot_product * normal_vector_unit_x
                     const normal_vector_unit_dot_product_y = normal_vector_unit_dot_product * normal_vector_unit_y
@@ -231,7 +230,7 @@ class Vector {
         this.y = y;
     }
 
-    normalised() {
+    unit() {
         const length = this.length()
         return new Vector(this.x / length, this.y / length)
     }
