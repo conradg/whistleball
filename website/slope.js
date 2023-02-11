@@ -215,7 +215,6 @@ class Blob {
                     this.y_speed = normal_vector_unit_dot_product_y_new + tangent_vector_unit_dot_product_y
                     this.y_speed *= 0.99
                     this.x_speed *= 0.99
-                    return
                 }
             }
         }
