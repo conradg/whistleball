@@ -1,5 +1,6 @@
 // make canvas red
 const canvas = document.getElementById('audio');
+canvas.width=window.innerWidth;
 const ctx = canvas.getContext('2d');
 
 // get audio context
@@ -191,7 +192,7 @@ function reset_game() {
 
 function add_blobs(difficulty) {
     setTimeout(() => {
-        const blob = new Blob(400, 100)
+        const blob = new Blob(canvas.width*0.25, 100)
         game.blobs.push(blob)
         if (game_over) {
             return
