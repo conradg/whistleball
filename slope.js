@@ -12,7 +12,8 @@ let freq = 0;
 let volume = 0;
 const smoothingTimeConstant = 0.99;
 let score = 0;
-
+let lifes = 3;
+let game_over = false;
 const difficulty = [
     5000, 5000, 5000, 5000, 5000, 5000, 5000,
     4000, 4000, 4000, 4000, 4000, 4000, 4000,
@@ -62,6 +63,8 @@ class Line {
             x += sliceWidth;
         });
         this.points = line;
+        // test line
+        // this.points = [[0,300], [1920,0]]
     }
 }
 
@@ -95,6 +98,21 @@ class Game {
                 }
             }
         )
+        this.blobs.forEach(blob => {
+                if (blob.x < 0) {
+                    lifes = 0
+                    if (lifes == 0) {
+                        //show audio screen
+                        let audioScreen = document.getElementById('audioScreen');
+                        audioScreen.style.display = "block";
+                        document.getElementById("instruction").innerText = "Game Over - click to try again";
+                        game_over = true;
+                    }
+                    let str = "❤️".repeat(lifes)
+                    document.getElementById('lifes').innerText = `Lifes: ${str}`
+                }
+            }
+        )
         this.blobs = this.blobs.filter(blob => {
             return blob.y < canvas.height && blob.x < canvas.width && blob.x > 0 && blob.y > 0;
         })
@@ -115,6 +133,9 @@ function loop() {
     game.move();
     game.draw();
     game.garbage_collect_blobs()
+    if (game_over){
+        return;
+    }
     requestAnimationFrame(loop);
 }
 
@@ -148,13 +169,32 @@ document.onclick = function (event) {
             );
         game_inited = true;
     }
+
+    if (game_over) {
+        reset_game();
+    }
 }
 
+function reset_game() {
+    game = new Game();
+    score = 0;
+    lifes = 3;
+    document.getElementById('score').innerText = `Score: ${score}`
+    let str = "❤️".repeat(lifes)
+    document.getElementById('lifes').innerText = `Lifes: ${str}`
+    game_over = false;
+    let audioScreen = document.getElementById('audioScreen');
+    audioScreen.style.display = "none";
+    loop();
+}
 
 function add_blobs(difficulty) {
     setTimeout(() => {
         const blob = new Blob(400, 100)
         game.blobs.push(blob)
+        if (game_over) {
+            return
+        }
         add_blobs(difficulty.slice(1, difficulty.length))
     }, difficulty[0] || 500)
 }
