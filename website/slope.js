@@ -13,6 +13,17 @@ let volume = 0;
 const smoothingTimeConstant = 0.99;
 let score = 0;
 
+const difficulty = [
+    5000, 5000, 5000, 5000, 5000, 5000, 5000,
+    4000, 4000, 4000, 4000, 4000, 4000, 4000,
+    3000, 3000, 3000, 3000, 3000, 3000, 3000,
+    2000, 2000, 2000, 2000, 2000, 2000, 2000,
+    1000, 1000, 1000, 1000, 1000, 1000, 1000,
+    500, 500, 500, 500, 500, 500, 500,
+
+]
+
+
 class Line {
     constructor() {
         this.points = [];
@@ -141,15 +152,15 @@ document.onclick = function (event) {
 }
 
 
-// function add_blobs() {
-//     setTimeout(() => {
-//         const blob = new Blob(400, 100)
-//         game.blobs.push(blob)
-//         add_blobs()
-//     }, 1000*1)
-// }
-//
-// add_blobs()
+function add_blobs(difficulty) {
+    setTimeout(() => {
+        const blob = new Blob(400, 100)
+        game.blobs.push(blob)
+        add_blobs(difficulty.slice(1, difficulty.length))
+    }, difficulty[0] || 500)
+}
+
+add_blobs(difficulty)
 
 
 class Blob {
