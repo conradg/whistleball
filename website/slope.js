@@ -84,6 +84,7 @@ navigator.mediaDevices.getUserMedia({audio: true, video: false})
     );
 
 
+
 class Blob {
     constructor() {
         this.x = 100;
@@ -102,3 +103,9 @@ class Blob {
     move(){
     }
 }
+
+
+canvas.onclick(function () {
+    blob = new Blob();
+    blob.draw();
+})
