@@ -79,9 +79,12 @@ navigator.mediaDevices.getUserMedia({audio: true, video: false})
 document.onclick = function (event) {
     const x = event.x - 8
     const y = event.y - 8
-    game_state.blobs.push(new Blob(x, y))
+    const blob = new Blob(x, y)
+    game_state.blobs.push(blob)
+    blob.draw()
     console.log(x,y)
 }
+
 
 class Blob {
     constructor(x,y) {
@@ -95,7 +98,7 @@ class Blob {
     draw() {
         ctx.fillStyle = 'red';
         ctx.beginPath();
-        ctx.arc(this.x-this.width/2, this.y-this.width/2, this.width, 0, 2 * Math.PI);
+        ctx.arc(this.x, this.y, this.width, 0, 2 * Math.PI);
         ctx.fill();
     }
 
@@ -107,15 +110,34 @@ class Blob {
             const [nx, ny] = game_state.line[i+1];
 
             if (this.x > x && this.x < nx){
+                const m = (ny-y)/(nx-x)
+                const slope_angle = Math.atan(m)
                 const dx = this.x - x
+                const dy = m * dx
+                const y_offset = y + dy
+                const y_ball_dist = y_offset - this.y
+                const ball_offset = y_ball_dist * Math.cos(slope_angle)
+                const ux = this.x - ball_offset * Math.sin(slope_angle)
+                const uy = this.y + ball_offset * Math.cos(slope_angle)
 
-                if (this.y > y){
-                    this.y = y
+                this.debug_point(this.x, y_offset, 'blue')
+                this.debug_point(ux, uy)
+                console.log(ball_offset)
+                if (ball_offset < this.width && this.speed > 0){
+                    this.y = y_offset - this.width
                     this.speed = -this.speed
-
                 }
             }
         }
+    }
+
+    debug_point(x, y, colour = 'red') {
+    // draw a line from the centre of the ball to the point
+        ctx.moveTo(this.x, this.y)
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'black';
+        ctx.lineTo(x, y)
+        ctx.stroke();
     }
 }
 
