@@ -1,4 +1,6 @@
 class Ball {
+    GRAVITY = 0.07;
+
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -26,7 +28,7 @@ class Ball {
     }
 
     move(line) {
-        this.y_speed += 0.05
+        this.y_speed += this.GRAVITY
         this.y += this.y_speed
         this.x += this.x_speed
 
