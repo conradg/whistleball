@@ -76,6 +76,8 @@ class Line {
 
 class Game {
     constructor() {
+        this.lifes = lifes
+        this.score = score
         this.blobs = [];
         this.line = new Line();
         this.debug_points = [];
@@ -175,11 +177,8 @@ document.onclick = function (event) {
 
 function reset_game() {
     game = new Game();
-    score = 0;
-    lifes = 3;
-    document.getElementById('score').innerText = `Score: ${score}`
-    let str = "❤️".repeat(lifes)
-    document.getElementById('lifes').innerText = `Lifes: ${str}`
+    document.getElementById('score').innerText = `Score: ${game.score}`
+    document.getElementById('lifes').innerText = `Lifes: ${ "❤️".repeat(game.lifes)}`
     game_over = false;
     let audioScreen = document.getElementById('audioScreen');
     audioScreen.style.display = "none";
