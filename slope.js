@@ -86,7 +86,7 @@ class Game {
 
     move() {
         this.blobs.forEach(blob => {
-            blob.move();
+            blob.move(this.line);
         })
         this.line.calculate_line();
     }
@@ -239,15 +239,15 @@ class Blob {
         this.debug_points = [];
     }
 
-    move() {
+    move(line) {
         this.y_speed += 0.05
         this.y += this.y_speed
         this.x += this.x_speed
 
         // line collision logic
-        for (let i = 0; i < game.line.points.length - 1; i++) {
-            const [x, y] = game.line.points[i];
-            const [nx, ny] = game.line.points[i + 1];
+        for (let i = 0; i < line.points.length - 1; i++) {
+            const [x, y] = line.points[i];
+            const [nx, ny] = line.points[i + 1];
 
 
             if (this.x > x && this.x < nx) {
@@ -318,7 +318,6 @@ class Blob {
         ctx.stroke();
     }
 }
-
 
 
 window.onload = function () {
