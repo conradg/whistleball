@@ -119,7 +119,7 @@ class Game {
             // If blob has exited to the right, lose a life!
             if (blob.x < 0) {
                 this.lose_life();
-                if (this.lifes == 2) {
+                if (this.lifes == 0) {
                     show_screen("Game Over - Click to try again \n"+
                         "Score: " + this.score)
                     game_over = true;
