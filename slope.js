@@ -107,14 +107,14 @@ class Game {
     garbage_collect_blobs() {
         this.blobs.forEach(blob => {
                 if (blob.x > canvas.width) {
-                    score = score + 1;
+                    this.increment_score();
                     document.getElementById('score').innerText = `Score: ${score}`
                 }
             }
         )
         this.blobs.forEach(blob => {
                 if (blob.x < 0) {
-                    lifes = lifes - 1;
+                    this.lose_life();
                     if (lifes == 0) {
                         //show audio screen
                         let audioScreen = document.getElementById('audioScreen');
@@ -130,6 +130,14 @@ class Game {
         this.blobs = this.blobs.filter(blob => {
             return blob.y < canvas.height && blob.x < canvas.width && blob.x > 0 && blob.y > 0;
         })
+    }
+
+    lose_life() {
+        this.lifes = this.lifes - 1;
+    }
+
+    increment_score(){
+        this.score = this.score + 1;
     }
 }
 
