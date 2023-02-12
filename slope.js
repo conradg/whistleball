@@ -9,6 +9,7 @@ let analyser;
 const fftSize = 1024;
 const max_freq = 2000;
 const min_freq = 900;
+const DEBUG = false;
 
 // This determines how quickly the line snaps back to y=0
 const smoothingTimeConstant = 0.99;
@@ -230,9 +231,11 @@ class Blob {
         ctx.fill();
         ctx.stroke();
 
-        this.debug_points.forEach(([x, y, color]) => {
-            this.draw_debug_point(x, y, color)
-        })
+        if (DEBUG) {
+            this.debug_points.forEach(([x, y, color]) => {
+                this.draw_debug_point(x, y, color)
+            });
+        }
         this.debug_points = [];
     }
 
@@ -268,8 +271,10 @@ class Blob {
                     this.x_speed,
                     this.y_speed
                 )
-                // this.add_debug_point(this.x - normal.x * 10, this.y - normal.y * 10)
-                // this.add_debug_point(this.x + this.x_speed * 10, this.y + this.y_speed * 10, 'green')
+
+
+                this.add_debug_point(this.x - normal.x * 10, this.y - normal.y * 10)
+                this.add_debug_point(this.x + this.x_speed * 10, this.y + this.y_speed * 10, 'green')
 
 
                 if (ball_offset < this.width) {
