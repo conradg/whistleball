@@ -9,12 +9,17 @@ let analyser;
 const fftSize = 1024;
 const max_freq = 2000;
 const min_freq = 900;
-let freq = 0;
-let volume = 0;
+
+// This determines how quickly the line snaps back to y=0
 const smoothingTimeConstant = 0.99;
+
 let score = 0;
 let lifes = 3;
 let game_over = false;
+
+// The number of seconds between each ball dropping
+// once the list is exhausted, it stays on 500
+// TODO: maybe make it exponential?
 const difficulty = [
     5000, 5000, 5000, 5000, 5000, 5000, 5000,
     4000, 4000, 4000, 4000, 4000, 4000, 4000,
@@ -46,16 +51,16 @@ class Line {
     }
 
     calculate_line() {
-        // calculate points
-        const bucket_frequency_size = audioCtx.sampleRate / analyser.fftSize;
+        // how wide each bucket is in terms of Hz range
+        const bucket_width = audioCtx.sampleRate / analyser.fftSize;
         const dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
-        const bins_shown = (max_freq - min_freq) / bucket_frequency_size;
+        const bins_shown = (max_freq - min_freq) / bucket_width;
         const sliceWidth = canvas.width * 1.0 / bins_shown;
         let x = 0;
         let line = [];
         dataArray.forEach((v, i) => {
-            let frequency = i * bucket_frequency_size;
+            let frequency = i * bucket_width;
             if (frequency > max_freq || frequency < min_freq) {
                 return;
             }
