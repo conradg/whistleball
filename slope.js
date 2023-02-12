@@ -119,8 +119,9 @@ class Game {
             // If blob has exited to the right, lose a life!
             if (blob.x < 0) {
                 this.lose_life();
-                if (this.lifes == 0) {
-                    show_screen("Game Over - click to try again")
+                if (this.lifes == 2) {
+                    show_screen("Game Over - Click to try again \n"+
+                        "Score: " + this.score)
                     game_over = true;
                 }
                 let str = "❤️".repeat(this.lifes)
