@@ -117,10 +117,7 @@ class Game {
             if (blob.x < 0) {
                 this.lose_life();
                 if (lifes == 0) {
-                    //show audio screen
-                    let audioScreen = document.getElementById('audioScreen');
-                    audioScreen.style.display = "block";
-                    document.getElementById("instruction").innerText = "Game Over - click to try again";
+                    this.show_screen("Game Over - click to try again")
                     game_over = true;
                 }
                 let str = "❤️".repeat(lifes)
@@ -130,6 +127,12 @@ class Game {
         this.blobs = this.blobs.filter(blob => {
             return blob.y < canvas.height && blob.x < canvas.width && blob.x > 0 && blob.y > 0;
         })
+    }
+
+    show_screen(text) {
+        let audioScreen = document.getElementById('audioScreen');
+        audioScreen.style.display = "block";
+        document.getElementById("instruction").innerText = text;
     }
 
     lose_life() {
@@ -330,4 +333,9 @@ class Vector {
     dot_product(vector) {
         return this.x * vector.x + this.y * vector.y
     }
+}
+
+
+window.onload = function () {
+    game.show_screen("Click to enable audio")
 }
