@@ -174,7 +174,7 @@ document.onclick = function (event) {
 }
 
 function reset_game() {
-    game = new Gagme();
+    game = new Game();
     score = 0;
     lifes = 3;
     document.getElementById('score').innerText = `Score: ${score}`
