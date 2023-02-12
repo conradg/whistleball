@@ -112,7 +112,7 @@ class Game {
             // If blob has exited to the right, increment score.
             if (blob.x > canvas.width) {
                 this.increment_score();
-                document.getElementById('score').innerText = `Score: ${score}`
+                document.getElementById('score').innerText = `Score: ${this.score}`
             }
         })
         this.blobs.forEach(blob => {
