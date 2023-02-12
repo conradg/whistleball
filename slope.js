@@ -145,27 +145,26 @@ class Game {
     increment_score() {
         this.score = this.score + 1;
     }
+
+    loop() {
+        this.move();
+        this.draw();
+        this.check_blobs()
+        if (game_over) {
+            return false;
+        }
+    }
 }
 
 
 game = new Game();
 
-function loop() {
-    game.move();
-    game.draw();
-    game.check_blobs()
-    if (game_over) {
-        return;
-    }
-    requestAnimationFrame(loop);
-}
 
-let game_inited = false;
+let audio_context_initialised = false;
 
 document.onclick = function (event) {
-    if (!game_inited) {
-
-
+    if (!audio_context_initialised) {
+        // initialise audio context
         audioCtx = new AudioContext();
         analyser = audioCtx.createAnalyser();
         analyser.fftSize = fftSize;
@@ -179,7 +178,7 @@ document.onclick = function (event) {
                     reset_game()
                 }
             );
-        game_inited = true;
+        audio_context_initialised = true;
     }
 
     if (game_over) {
@@ -194,7 +193,7 @@ function reset_game() {
     game_over = false;
     let audioScreen = document.getElementById('audioScreen');
     audioScreen.style.display = "none";
-    loop();
+    game_loop();
     add_blobs(difficulty)
 }
 
@@ -209,6 +208,12 @@ function add_blobs(difficulty) {
     }, difficulty[0] || 500)
 }
 
+function game_loop() {
+    if (game.loop() === false) {
+        return false;
+    }
+    requestAnimationFrame(game_loop);
+}
 
 window.onload = function () {
     game.show_screen("Click to enable audio")
