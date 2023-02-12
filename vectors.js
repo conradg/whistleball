@@ -7,6 +7,9 @@ class Vector {
 
     unit() {
         const length = this.length()
+        if (length === 0) {
+            return new Vector(0, 0)
+        }
         return new Vector(this.x / length, this.y / length)
     }
 

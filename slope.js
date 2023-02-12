@@ -66,13 +66,13 @@ class Line {
             if (frequency > max_freq || frequency < min_freq) {
                 return;
             }
-            const y = v / 128.0 * canvas.height / 2;
+            const y = v / 128.0 * canvas.height / 2 + 13;
             line.push([x, y])
             x += sliceWidth;
         });
         this.points = line;
         // test line
-        // this.points = [[0,300], [1920,0]]
+        // this.points = [[0,13], [1920,13]]
     }
 }
 
@@ -133,6 +133,10 @@ class Game {
         })
     }
 
+    add_blob(blob) {
+        this.blobs.push(blob);
+    }
+
 
     lose_life() {
         this.lifes = this.lifes - 1;
@@ -190,8 +194,8 @@ function reset_game() {
 
 function add_blobs(difficulty) {
     setTimeout(() => {
-        const blob = new Ball(canvas.width * 0.25, 100)
-        game.blobs.push(blob)
+        game.add_blob(new Ball(canvas.width * 0.25, 4))
+        game.draw()
         if (game_over) {
             return
         }
