@@ -104,29 +104,29 @@ class Game {
         })
     }
 
-    garbage_collect_blobs() {
+    check_blobs() {
         this.blobs.forEach(blob => {
-                if (blob.x > canvas.width) {
-                    this.increment_score();
-                    document.getElementById('score').innerText = `Score: ${score}`
-                }
+            // If blob has exited to the right, increment score.
+            if (blob.x > canvas.width) {
+                this.increment_score();
+                document.getElementById('score').innerText = `Score: ${score}`
             }
-        )
+        })
         this.blobs.forEach(blob => {
-                if (blob.x < 0) {
-                    this.lose_life();
-                    if (lifes == 0) {
-                        //show audio screen
-                        let audioScreen = document.getElementById('audioScreen');
-                        audioScreen.style.display = "block";
-                        document.getElementById("instruction").innerText = "Game Over - click to try again";
-                        game_over = true;
-                    }
-                    let str = "❤️".repeat(lifes)
-                    document.getElementById('lifes').innerText = `Lifes: ${str}`
+            // If blob has exited to the right, lose a life!
+            if (blob.x < 0) {
+                this.lose_life();
+                if (lifes == 0) {
+                    //show audio screen
+                    let audioScreen = document.getElementById('audioScreen');
+                    audioScreen.style.display = "block";
+                    document.getElementById("instruction").innerText = "Game Over - click to try again";
+                    game_over = true;
                 }
+                let str = "❤️".repeat(lifes)
+                document.getElementById('lifes').innerText = `Lifes: ${str}`
             }
-        )
+        })
         this.blobs = this.blobs.filter(blob => {
             return blob.y < canvas.height && blob.x < canvas.width && blob.x > 0 && blob.y > 0;
         })
@@ -136,7 +136,7 @@ class Game {
         this.lifes = this.lifes - 1;
     }
 
-    increment_score(){
+    increment_score() {
         this.score = this.score + 1;
     }
 }
@@ -147,7 +147,7 @@ game = new Game();
 function loop() {
     game.move();
     game.draw();
-    game.garbage_collect_blobs()
+    game.check_blobs()
     if (game_over) {
         return;
     }
@@ -186,7 +186,7 @@ document.onclick = function (event) {
 function reset_game() {
     game = new Game();
     document.getElementById('score').innerText = `Score: ${game.score}`
-    document.getElementById('lifes').innerText = `Lifes: ${ "❤️".repeat(game.lifes)}`
+    document.getElementById('lifes').innerText = `Lifes: ${"❤️".repeat(game.lifes)}`
     game_over = false;
     let audioScreen = document.getElementById('audioScreen');
     audioScreen.style.display = "none";
