@@ -272,11 +272,11 @@ class Blob {
                     this.y_speed
                 )
 
-
                 this.add_debug_point(this.x - normal.x * 10, this.y - normal.y * 10)
                 this.add_debug_point(this.x + this.x_speed * 10, this.y + this.y_speed * 10, 'green')
 
-
+                // Reflect the ball if it hits the line
+                // this was basically just prompted by CoPilot...
                 if (ball_offset < this.width) {
                     this.y = y_offset - this.width
                     const normal_vector_unit = normal.unit()
@@ -319,26 +319,6 @@ class Blob {
     }
 }
 
-
-class Vector {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    unit() {
-        const length = this.length()
-        return new Vector(this.x / length, this.y / length)
-    }
-
-    length() {
-        return Math.sqrt(this.x ** 2 + this.y ** 2)
-    }
-
-    dot_product(vector) {
-        return this.x * vector.x + this.y * vector.y
-    }
-}
 
 
 window.onload = function () {
