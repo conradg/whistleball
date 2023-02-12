@@ -1,4 +1,3 @@
-
 const canvas = document.getElementById('audio');
 canvas.width = window.innerWidth;
 const ctx = canvas.getContext('2d');
@@ -92,6 +91,7 @@ class Game {
         this.ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     }
+
     move() {
         this.blobs.forEach(blob => {
             blob.move(this.line);
@@ -120,7 +120,7 @@ class Game {
             if (blob.x < 0) {
                 this.lose_life();
                 if (lifes == 0) {
-                    this.show_screen("Game Over - click to try again")
+                    show_screen("Game Over - click to try again")
                     game_over = true;
                 }
                 let str = "❤️".repeat(lifes)
@@ -132,11 +132,6 @@ class Game {
         })
     }
 
-    show_screen(text) {
-        let audioScreen = document.getElementById('audioScreen');
-        audioScreen.style.display = "block";
-        document.getElementById("instruction").innerText = text;
-    }
 
     lose_life() {
         this.lifes = this.lifes - 1;
@@ -156,12 +151,7 @@ class Game {
     }
 }
 
-
-game = new Game();
-
-
 let audio_context_initialised = false;
-
 document.onclick = function (event) {
     if (!audio_context_initialised) {
         // initialise audio context
@@ -215,6 +205,14 @@ function game_loop() {
     requestAnimationFrame(game_loop);
 }
 
+function show_screen(text)
+{
+    let audioScreen = document.getElementById('audioScreen');
+    audioScreen.style.display = "block";
+    document.getElementById("instruction").innerText = text;
+}
+
+
 window.onload = function () {
-    game.show_screen("Click to enable audio")
+    show_screen("Click to enable audio")
 }
