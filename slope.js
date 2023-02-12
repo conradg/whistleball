@@ -119,11 +119,11 @@ class Game {
             // If blob has exited to the right, lose a life!
             if (blob.x < 0) {
                 this.lose_life();
-                if (lifes == 0) {
+                if (this.lifes == 0) {
                     show_screen("Game Over - click to try again")
                     game_over = true;
                 }
-                let str = "❤️".repeat(lifes)
+                let str = "❤️".repeat(this.lifes)
                 document.getElementById('lifes').innerText = `Lifes: ${str}`
             }
         })
