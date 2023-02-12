@@ -56,7 +56,7 @@ class Line {
         const dataArray = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(dataArray);
         const bins_shown = (max_freq - min_freq) / bucket_width;
-        const sliceWidth = canvas.width * 1.0 / bins_shown;
+        const sliceWidth = canvas.width / bins_shown;
         let x = 0;
         let line = [];
         dataArray.forEach((v, i) => {
