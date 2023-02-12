@@ -1,6 +1,6 @@
 // make canvas red
 const canvas = document.getElementById('audio');
-canvas.width=window.innerWidth;
+canvas.width = window.innerWidth;
 const ctx = canvas.getContext('2d');
 
 // get audio context
@@ -53,12 +53,12 @@ class Line {
     calculate_line() {
         // how wide each bucket is in terms of Hz range
         const bucket_width = audioCtx.sampleRate / analyser.fftSize;
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(dataArray);
         const bins_shown = (max_freq - min_freq) / bucket_width;
         const sliceWidth = canvas.width / bins_shown;
         let x = 0;
-        let line = [];
+        let line = []; // store the coordinates of each line segment in this array
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(dataArray);
         dataArray.forEach((v, i) => {
             let frequency = i * bucket_width;
             if (frequency > max_freq || frequency < min_freq) {
@@ -88,8 +88,14 @@ class Game {
         this.line.calculate_line();
     }
 
+    clear_canvas() {
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    }
+
     draw() {
-        clear_canvas();
+        this.clear_canvas();
         this.line.draw();
         this.blobs.forEach(blob => {
             blob.draw();
@@ -126,35 +132,21 @@ class Game {
 }
 
 
-function clear_canvas() {
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-}
-
-
 game = new Game();
 
 function loop() {
     game.move();
     game.draw();
     game.garbage_collect_blobs()
-    if (game_over){
+    if (game_over) {
         return;
     }
     requestAnimationFrame(loop);
 }
 
-// get microphone input
-
 let game_inited = false;
 
 document.onclick = function (event) {
-    // const x = event.x - 8
-    // const y = event.y - 8
-    // const blob = new Blob(x, y)
-    // game.blobs.push(blob)
-    // blob.draw()
     if (!game_inited) {
         // hide audioScreen
         const audioScreen = document.getElementById('audioScreen');
@@ -164,13 +156,13 @@ document.onclick = function (event) {
         analyser = audioCtx.createAnalyser();
         analyser.fftSize = fftSize;
         analyser.smoothingTimeConstant = smoothingTimeConstant;
+
+        // get Microphone input
         navigator.mediaDevices.getUserMedia({audio: true, video: false})
             .then(function (stream) {
                     const source = audioCtx.createMediaStreamSource(stream);
                     source.connect(analyser);
                     loop();
-                    // debugLowestFrequency();
-                    // showBlobCount();
                 }
             );
         game_inited = true;
@@ -182,7 +174,7 @@ document.onclick = function (event) {
 }
 
 function reset_game() {
-    game = new Game();
+    game = new Gagme();
     score = 0;
     lifes = 3;
     document.getElementById('score').innerText = `Score: ${score}`
@@ -197,7 +189,7 @@ function reset_game() {
 
 function add_blobs(difficulty) {
     setTimeout(() => {
-        const blob = new Blob(canvas.width*0.25, 100)
+        const blob = new Blob(canvas.width * 0.25, 100)
         game.blobs.push(blob)
         if (game_over) {
             return
