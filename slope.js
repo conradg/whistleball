@@ -13,7 +13,7 @@ const DEBUG = false;
 let game;
 
 // This determines how quickly the line snaps back to y=0
-const smoothingTimeConstant = 0.99;
+const smoothingTimeConstant = 0.5;
 
 let score = 0;
 let lifes = 3;
@@ -23,7 +23,7 @@ let game_over = false;
 // once the list is exhausted, it stays on 500
 // TODO: maybe make it exponential?
 const difficulty = [
-    5000, 5000, 5000, 5000, 5000, 5000, 5000,
+    3000, 5000, 5000, 5000, 5000, 5000, 5000,
     4000, 4000, 4000, 4000, 4000, 4000, 4000,
     3000, 3000, 3000, 3000, 3000, 3000, 3000,
     2000, 2000, 2000, 2000, 2000, 2000, 2000,
