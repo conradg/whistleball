@@ -13,7 +13,7 @@ const DEBUG = false;
 let game;
 
 // This determines how quickly the line snaps back to y=0
-const smoothingTimeConstant = 0.5;
+const smoothingTimeConstant = 0.99;
 
 let score = 0;
 let lifes = 3;
